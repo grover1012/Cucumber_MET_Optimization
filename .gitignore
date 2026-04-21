@@ -1,0 +1,27 @@
+# R
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Raw / large data
+Data/raw/*
+!Data/raw/README.md
+
+# Large intermediate outputs
+Output/models/*.rds
+Output/intermediate/*.rds
+*.RData
+
+# Manuscript build files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz

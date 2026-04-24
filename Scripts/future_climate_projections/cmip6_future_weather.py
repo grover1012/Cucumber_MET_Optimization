@@ -28,34 +28,28 @@ CDS dataset reference
 Copernicus Climate Data Store (CDS) – Projections CMIP6
 https://cds.climate.copernicus.eu/datasets/projections-cmip6?tab=download
 
-Important before running
-------------------------
-1. Create a CDS account.
-2. Make sure your CDS account has access to the CMIP6 dataset and that any
-   required dataset terms have been accepted in the CDS portal.
-3. Paste your CDS API key into API_KEY below.
-4. Define your locations as bounding boxes in this format:
-       [north, west, south, east]
+Important note on variable selection
+------------------------------------
+The default variable list included in this script is only an example for this
+workflow. Users can modify the VARIABLES section to request other variables
+available in the CDS CMIP6 dataset, provided that the variable names match the
+CDS dataset naming exactly and are valid for the selected request settings.
+Availability may depend on the selected model, experiment, temporal
+resolution, and other CDS options. Users should check the CDS dataset page for
+available variables and supported request settings before editing the list.
 
-Example location
-----------------
-LOCATIONS = {
-    "NC_Wake": [36.30, -79.00, 35.30, -78.00],
-    "WI_Waushara": [44.11, -89.24, 43.11, -90.24],
-}
+Before running
+--------------
+1. Create a CDS account.
+2. Obtain your CDS API key from your CDS profile.
+3. Accept any required dataset terms on the CDS website.
+4. Enter your API key and define your locations and variables in the USER
+   SETTINGS section below.
 
 Output
 ------
-The final output is a CSV file with one row per location x month and one column
-per climate variable. The combined file is saved inside OUTPUT_DIR.
-
-Notes
------
-- The script calculates monthly means across all grid cells inside each user-
-  supplied bounding box.
-- Longitude values are converted from 0..360 to -180..180 if needed.
-- The final file is intended to be easy to use for downstream analysis in R,
-  Python, or spreadsheet software.
+A final combined CSV containing all extracted variable values for each
+location and time step.
 """
 
 from __future__ import annotations
@@ -104,7 +98,13 @@ MODEL = "cesm2"
 MONTHS = ["03", "04", "05", "06", "07"]
 YEARS = [str(year) for year in range(2050, 2066)]
 
-# Variables to download from the CMIP6 dataset.
+# Climate variables to download from the CDS CMIP6 dataset.
+# The default list below is only an example for this workflow.
+# Users can modify this list to request other variables available in the
+# CDS CMIP6 dataset, provided the variable names match the CDS naming exactly
+# and are valid for the selected request settings.
+# Dataset page:
+# https://cds.climate.copernicus.eu/datasets/projections-cmip6?tab=download
 VARIABLES = [
     "near_surface_air_temperature",
     "near_surface_specific_humidity",

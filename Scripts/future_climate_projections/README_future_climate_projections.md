@@ -11,6 +11,23 @@ This workflow is provided in two formats:
 - **Colab notebook**: `cmip6_future_weather_colab_easy.ipynb`
 
 ---
+## Variable selection
+
+The script includes a default list of climate variables for convenience, but
+users are not restricted to only those variables.
+
+Users may modify the `VARIABLES` section to request other variables available
+in the Copernicus Climate Data Store (CDS) CMIP6 dataset, as long as the
+variable name matches the CDS dataset naming exactly and is valid for the
+selected request settings.
+
+Dataset page:
+https://cds.climate.copernicus.eu/datasets/projections-cmip6?tab=download
+
+Before changing variables, users should verify:
+- the variable is available in the selected CDS CMIP6 dataset
+- the variable name matches the CDS naming exactly
+- the variable is compatible with the selected model, experiment, and temporal settings
 
 ## Dataset source
 

@@ -167,4 +167,4 @@ This repository is released under the **MIT License**. See the `LICENSE` file fo
 
 ## Contact
 
-For questions about the workflow or repository structure, please contact the repository owner.
+For questions about the workflow or repository structure, please contact Kashish Grover (grvrkashish@gmail.com).

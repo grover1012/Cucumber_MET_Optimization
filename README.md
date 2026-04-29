@@ -2,6 +2,10 @@
 
 This repository contains the analysis workflows used for the cucumber multi-environment trial (MET) optimization project. The project integrates envirotyping, environmental covariate selection, environmental clustering, optimization scenario comparison, present-versus-future environmental comparison, and trial recommendation.
 
+<p align="center">
+  <img src="Figures/Abstract_figure.png" alt="Cucumber MET Optimization graphical abstract" width="1100">
+</p>
+
 ## Repository structure
 
 ```text

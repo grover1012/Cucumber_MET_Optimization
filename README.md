@@ -1,116 +1,80 @@
-# Cucumber_MET_OPT
+# Cucumber MET Optimization
 
-This repository contains the analysis pipeline for the manuscript:
+This repository contains the analysis workflows used for the cucumber multi-environment trial (MET) optimization project. The project integrates envirotyping, environmental covariate selection, environmental clustering, optimization scenario comparison, present-versus-future environmental comparison, and trial recommendation.
 
-**Optimizing pickling cucumber multi-environment trial networks using environmental covariates, production importance, and future climate projections**
-
-The repository structure follows the MET optimization project style used by Prado et al. for rice MET optimization, with separate `Data`, `Scripts`, and `Output` folders, but is adapted for pickling cucumber and includes future climate comparison.
-
-## Project structure
+## Repository structure
 
 ```text
 Cucumber_MET_OPT/
-├── Cucumber_MET_OPT.Rproj
-├── README.md
-├── .gitignore
 ├── Data/
-│   ├── raw/          # raw input files; not tracked by git
-│   └── processed/    # cleaned and derived datasets
-├── Scripts/          # analysis scripts, run in numeric order
-├── R/                # helper functions
-├── Output/
-│   ├── tables/       # result tables
-│   ├── models/       # model objects
-│   └── intermediate/ # intermediate files
-├── Figures/          # final manuscript figures
-└── Manuscript/       # manuscript files or LaTeX notes
+│   ├── raw/
+│   └── processed/
+├── Outputs/
+├── Extracting env data/
+│   ├── 01_multiyear_env_data_and_predictor_selection_simple.R
+│   ├── 02_multilocation_env_data_and_predictor_selection_simple.R
+│   ├── 03_combine_final_predictors_simple.R
+│   ├── 04_present_counties_env_processing_simple.R
+│   ├── 05_met_optimization_models_FINAL_from_analysis.R
+│   ├── 06_present_future_clustering_and_alluvial.R
+│   └── README_env_data_processing.md
+├── future_climate_projections/
+│   ├── cmip6_future_weather_colab.ipynb
+│   ├── cmip6_future_weather.py
+│   └── README_future_climate_projections.md
+└── README.md
 ```
 
-## Analysis workflow
+## Main workflow
 
-Run the scripts in this order:
+The main environmental analysis workflow is in `Extracting env data/`:
 
-1. `Scripts/00_setup.R`  
-   Loads packages and sources helper functions.
+1. `01_multiyear_env_data_and_predictor_selection_simple.R`
+2. `02_multilocation_env_data_and_predictor_selection_simple.R`
+3. `03_combine_final_predictors_simple.R`
+4. `04_present_counties_env_processing_simple.R`
+5. `05_met_optimization_models_FINAL_from_analysis.R`
+6. `06_present_future_clustering_and_alluvial.R`
 
-2. `Scripts/01_prepare_phenotypes.R`  
-   Cleans multi-location and multi-year phenotype datasets.
+The future climate extraction workflow is in `future_climate_projections/`.
 
-3. `Scripts/02_prepare_environmental_covariates.R`  
-   Processes weather and soil ECs and creates the phenology-stage table.
+## Data folders
 
-4. `Scripts/02b_combine_cmip6_csvs.py`  
-   Combines county-level CMIP6 CSV files into one monthly future climate dataset.
+### `Data/raw/`
+Contains raw metadata and phenotypic input files:
+- `MYT_metadata.xlsx`
+- `MYT_yield.xlsx`
+- `MLT_metadata.xlsx`
+- `MLT_yield.xlsx`
+- `county_acerage.xlsx`
 
-5. `Scripts/03_feature_selection.R`  
-   Performs EC filtering, stepwise regression for MLT, and repeated RFE for MYT.
+### `Data/processed/`
+Contains processed matrices and analysis-ready files:
+- `Wmatrix_MYT.csv`
+- `Wmatrix_MLT.csv`
+- `selected_EC_MYT.csv`
+- `selected_EC_MLT.csv`
+- `W_present.csv`
+- `future_matrix_Mar_Jun.csv`
+- `future_matrix_Apr_Jul.csv`
+- `Scenarios_summary.csv`
 
-6. `Scripts/04_tpe_clustering.R`  
-   Performs PCA, elbow/WSS diagnostics, and k-means clustering for MLT, MYT, current counties, and future windows.
+## Recommended run order
 
-7. `Scripts/05_met_optimization_models.R`  
-   Fits MET, MET_EC, WC_MET, OPT_MET, and HT_MET models and calculates Cullis heritability and trial-efficiency metrics.
-
-8. `Scripts/06_production_importance_and_recommendations.R`  
-   Calculates USDA harvested-area based production importance and cluster-level trial recommendation summaries.
-
-9. `Scripts/07_future_cluster_transitions.R`  
-   Creates present vs future cluster transition/alluvial data and plot.
-
-10. `Scripts/08_export_publication_figures.R`  
-   Exports final manuscript-ready figures.
-
-## Data inputs
-
-Raw data are not tracked in this repository by default. Place them in `Data/raw/`.
-
-Expected files:
-
-```text
-Data/raw/mlt_yield.csv
-Data/raw/myt_yield.csv
-Data/raw/environmental_covariates_raw.csv
-Data/raw/soil_covariates.csv
-Data/raw/usda_pickling_cucumber_county_area.csv
-Data/raw/future_data/
-```
+1. `01_multiyear_env_data_and_predictor_selection_simple.R`
+2. `02_multilocation_env_data_and_predictor_selection_simple.R`
+3. `03_combine_final_predictors_simple.R`
+4. `04_present_counties_env_processing_simple.R`
+5. future climate extraction workflow
+6. `06_present_future_clustering_and_alluvial.R`
+7. `05_met_optimization_models_FINAL_from_analysis.R`
 
 ## Notes
 
-- The multi-location trial contains 7 locations × 3 years = 21 location-year environments.
-- The multi-year trial yield is calculated as the sum of six harvests.
-- Present climate period: 2010–2025.
-- Future climate period: 2050–2065.
-- Future climate model/scenario: CESM2, SSP5-8.5.
-- Future planting windows: March–June and April–July.
-- Production importance is based on USDA 2022 Census harvested area for pickling cucumbers.
-
-## Contact
-
-Kashish Grover  
-Department of Horticultural Science, North Carolina State University
-
-
-## Important script update
-
-The repository now includes the uploaded working optimization script:
-
-```text
-Scripts/05_met_optimization_models_FINAL_from_analysis.R
-```
-
-This is the latest optimization workflow from the analysis and includes:
-
-- environment-level BLUE/BLUP extraction from `yld_env.xlsx`
-- true environment-level Cullis heritability calculation
-- construction of `results.st1`
-- MET, MET_EC, WC_MET, OPT_MET, and HT_MET scenario comparison
-- 50 replicated runs for OPT_MET and HT_MET
-- final scenario summary tables
-- heritability comparison plot export
-
-The earlier `Scripts/05_met_optimization_models.R` remains a cleaned template. For reproducing the manuscript analysis, use the FINAL script after preparing the required input objects/files:
-
-- `yld_env.xlsx`
-- `clusters`
-- `W.clean2`
+- Some scripts require you to edit file names or paths at the top of the script.
+- Environment names must be standardized before joining present and future files.
+- The detailed workflow notes are in:
+  - `Extracting env data/README_env_data_processing.md`
+  - `future_climate_projections/README_future_climate_projections.md`
+  - `Data/raw/README.md`
+  - `Data/processed/README.md`

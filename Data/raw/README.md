@@ -1,30 +1,57 @@
-# Raw data
+# Raw Data
 
-Place raw input data here. This folder is ignored by git except for this README.
+This folder contains the raw metadata and phenotypic input files used in the cucumber MET optimization workflows.
 
-Expected files:
+## Current files
 
-- `mlt_yield.csv`
-- `myt_yield.csv`
-- `environmental_covariates_raw.csv`
-- `soil_covariates.csv`
-- `usda_pickling_cucumber_county_area.csv`
-- `future_data/` containing CMIP6 county CSV folders
+- `MYT_metadata.xlsx`
+- `MYT_yield.xlsx`
+- `MLT_metadata.xlsx`
+- `MLT_yield.xlsx`
+- `county_acerage.xlsx`
+- `README.md`
 
-Recommended phenotype columns:
+## File roles
 
-## `mlt_yield.csv`
-- genotype
-- location
-- year
-- yield or GY
+### `MYT_metadata.xlsx`
+Raw metadata for the multi-year trial workflow.
 
-## `myt_yield.csv`
-- genotype
-- year
-- harvest1 ... harvest6, or total yield/GY
+Typically includes:
+- `env`
+- `Year`
+- `lat`
+- `lon`
+- `Alt`
+- `plantingDate`
+- `harvestDate`
 
-## `usda_pickling_cucumber_county_area.csv`
-- state
-- county
-- harvested_area_acres
+### `MYT_yield.xlsx`
+Raw phenotypic data for the multi-year trial workflow.
+
+Typically includes:
+- `env`
+- `Year`
+- `genotype`
+- `replicate`
+- `yield`
+
+### `MLT_metadata.xlsx`
+Raw metadata for the historical multi-location workflow.
+
+### `MLT_yield.xlsx`
+Raw phenotypic data for the historical multi-location workflow.
+
+### `county_acerage.xlsx`
+County-level metadata and production-importance input file used in present county analyses and recommendation workflows.
+
+Depending on the script, this file may need:
+- `env`
+- `lat`
+- `lon`
+- acreage or production importance
+- planting and harvest dates, if required by weather extraction scripts
+
+## Notes
+
+- Keep the raw files unchanged once they are finalized for the project.
+- If you need to clean or reformat data, save the derived version in `Data/processed/` rather than overwriting raw files.
